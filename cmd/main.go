@@ -35,6 +35,7 @@ func main() {
 	button_generate := widget.NewButton("click me", func() {
 		content_bottom.Objects = []fyne.CanvasObject{canvas.NewText("Part4", color.White), canvas.NewText("Part5", color.White)}
 		content_bottom.Refresh()
+		stac.TestStac()
 	})
 
 	content_top := container.New(layout.NewGridLayout(1), button_generate)
@@ -50,5 +51,4 @@ func main() {
 
 func tidyUp() {
 	fmt.Println("Exited")
-	stac.TestStac()
 }
