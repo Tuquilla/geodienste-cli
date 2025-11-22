@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"image/color"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"github.com/kglaus/geodienste-cli/pkg/gui"
 	"github.com/kglaus/geodienste-cli/pkg/stac"
 )
 
@@ -19,23 +18,27 @@ func main() {
 	myWindow.SetContent(widget.NewLabel("geodienste-cli2"))
 	myWindow.Resize(fyne.NewSize(300, 600))
 
-	green := color.NRGBA{R: 0, G: 180, B: 0, A: 255}
-
 	canvasObjects := []fyne.CanvasObject{}
+	//green := color.NRGBA{R: 0, G: 180, B: 0, A: 255}
+	//text1 := canvas.NewText("Part1", green)
+	//text2 := canvas.NewText("Part2", green)
+	//text3 := canvas.NewText("Part3", color.White)
+	//text4 := canvas.NewText("Part4", color.White)
+	//
+	//canvasObjects = append(canvasObjects, text1, text2, text3, text4)
 
-	text1 := canvas.NewText("Part1", green)
-	text2 := canvas.NewText("Part2", green)
-	text3 := canvas.NewText("Part3", color.White)
-	text4 := canvas.NewText("Part4", color.White)
-
-	canvasObjects = append(canvasObjects, text1, text2, text3, text4)
-
-	contentBottom := container.New(layout.NewGridLayout(2), canvasObjects...)
+	contentBottom := container.New(layout.NewGridLayout(4), canvasObjects...)
 
 	buttonGenerate := widget.NewButton("click me", func() {
-		contentBottom.Objects = []fyne.CanvasObject{canvas.NewText("Part4", color.White), canvas.NewText("Part5", color.White)}
+		collections := stac.GetCollections()
+		collectionObjects := []fyne.CanvasObject{}
+
+		for _, element := range collections.Collections {
+			collectionObjects = append(collectionObjects, gui.CollectionButton(element, contentBottom))
+		}
+
+		contentBottom.Objects = collectionObjects
 		contentBottom.Refresh()
-		stac.TestStac()
 	})
 
 	contentTop := container.New(layout.NewGridLayout(1), buttonGenerate)

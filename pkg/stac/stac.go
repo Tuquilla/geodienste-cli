@@ -9,10 +9,10 @@ import (
 	"github.com/kglaus/geodienste-cli/pkg/stac/models"
 )
 
-var BASE_URL string = "https://geodienste.ch/stac/collections"
+const baseUrl string = "https://geodienste.ch/stac/collections"
 
-func TestStac() {
-	resp, err := http.Get(BASE_URL)
+func GetCollections() models.Collections {
+	resp, err := http.Get(baseUrl)
 	if err != nil {
 		fmt.Println("Error calling service")
 	}
@@ -23,14 +23,31 @@ func TestStac() {
 		fmt.Println("Error reading Response Body")
 	}
 
-	collections := transfromJsonToInternalDataStructure(body)
+	collections := createCollections(body)
 	for _, collection := range collections.Collections {
 		fmt.Println(collection.Id)
 	}
+	return collections
 }
 
-func transfromJsonToInternalDataStructure(body []byte) models.Collections {
+//func GetItems() models.Items {
+//
+//}
+
+func createCollections(body []byte) models.Collections {
 	var collections models.Collections
-	json.Unmarshal(body, &collections)
+	err := json.Unmarshal(body, &collections)
+	if err != nil {
+		fmt.Printf("Error unmarshalling json: %s", err)
+	}
 	return collections
+}
+
+func createFeatureCollection(body []byte) models.FeatureCollection {
+	var featureCollections models.FeatureCollection
+	err := json.Unmarshal(body, &featureCollections)
+	if err != nil {
+		fmt.Printf("Error unmarshalling json: %s", err)
+	}
+	return featureCollections
 }

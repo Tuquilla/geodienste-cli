@@ -1,6 +1,6 @@
 package stac
 
-var collections_testdata = `{
+var collectionsTestdata = `{
   "collections": [
     {
       "stac_version": "1.0.0",
@@ -127,5 +127,4 @@ var collections_testdata = `{
       ]
     }
 	]
-}
-`
+  }`
