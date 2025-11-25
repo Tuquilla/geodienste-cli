@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"maps"
 	"slices"
+	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -12,7 +13,7 @@ import (
 	"github.com/kglaus/geodienste-cli/pkg/stac/models"
 )
 
-func CollectionButton(collection models.Collection, contentBottom *fyne.Container) *fyne.Container {
+func CollectionButton(collection models.Collection, contentBottom *fyne.Container, inputBar *widget.Entry) *fyne.Container {
 
 	label := widget.NewLabel(collection.Title)
 	label.Wrapping = fyne.TextWrapWord
@@ -32,6 +33,12 @@ func CollectionButton(collection models.Collection, contentBottom *fyne.Containe
 		}
 
 		contentBottom.Objects = featureCollectionObjects
+
+		inputBar.OnChanged = func(text string) {
+			contentBottom.Objects = FilterCanvasObjects(featureCollectionObjects, text)
+			contentBottom.Refresh()
+		}
+
 		contentBottom.Refresh()
 
 	})
@@ -49,5 +56,21 @@ func DownloadButton(assetObject models.AssetObject) *fyne.Container {
 	})
 	stack := container.NewStack(downloadButton, label)
 	return stack
+}
 
+func FilterCanvasObjects(canvasObjects []fyne.CanvasObject, text string) []fyne.CanvasObject {
+	var filteredObjects []fyne.CanvasObject
+
+	for _, canvasObject := range canvasObjects {
+		if c, ok := canvasObject.(*fyne.Container); ok {
+			for _, object := range c.Objects {
+				if v, ok := object.(*widget.Label); ok {
+					if strings.Contains(strings.ToLower(v.Text), strings.ToLower(text)) {
+						filteredObjects = append(filteredObjects, canvasObject)
+					}
+				}
+			}
+		}
+	}
+	return filteredObjects
 }
