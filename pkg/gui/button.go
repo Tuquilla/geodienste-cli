@@ -14,7 +14,6 @@ import (
 )
 
 func CollectionButton(collection models.Collection, contentBottom *fyne.Container, inputBar *widget.Entry) *fyne.Container {
-
 	label := widget.NewLabel(collection.Title)
 	label.Wrapping = fyne.TextWrapWord
 
