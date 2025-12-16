@@ -28,8 +28,9 @@ func main() {
 		Search:       binding.NewString(),
 	}
 
-	contentBottom := newMainFrame(stateBindings)
-	contentBottomWrapper := container.NewVScroll(contentBottom)
+	//contentBottom := newMainFrame(stateBindings)
+	//contentBottomWrapper := container.NewVScroll(contentBottom)
+	contentBottomWrapper := newMainFrame(stateBindings)
 
 	var collections models.Collections
 
@@ -84,8 +85,9 @@ func tidyUp() {
 	fmt.Println("Exited")
 }
 
-func newMainFrame(bind models.State) *fyne.Container {
+func newMainFrame(bind models.State) *container.Scroll {
 	grid := container.New(layout.NewGridWrapLayout(fyne.Size{Width: 200, Height: 125}))
+	scrollableGrid := container.NewVScroll(grid)
 
 	refresh := func() {
 		grid.Objects = nil
@@ -115,8 +117,12 @@ func newMainFrame(bind models.State) *fyne.Container {
 
 				assetKeys := slices.Sorted(maps.Keys(feature.Assets))
 				for _, assetKey := range assetKeys {
-					// TODO use assetKey as Title Title does not exist
-					label := widget.NewLabel(feature.Assets[assetKey].Title)
+					var label *widget.Label
+					if len(feature.Assets[assetKey].Title) > 0 {
+						label = widget.NewLabel(feature.Assets[assetKey].Title)
+					} else {
+						label = widget.NewLabel(assetKey)
+					}
 					label.Wrapping = fyne.TextWrapWord
 
 					button := widget.NewButton("", func() {
@@ -133,9 +139,11 @@ func newMainFrame(bind models.State) *fyne.Container {
 
 	bind.FilteredList.AddListener(binding.NewDataListener(func() {
 		refresh()
+		// reset scroll position to top
+		scrollableGrid.Offset = fyne.NewPos(0, 0)
 	}))
 
 	refresh()
 
-	return grid
+	return scrollableGrid
 }
