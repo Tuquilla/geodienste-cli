@@ -7,7 +7,7 @@ import (
 )
 
 func NewStacButton(bind models.State, collections models.Collections, selectEntry *widget.SelectEntry) *widget.Button {
-	buttonGenerate := widget.NewButton("click me", func() {
+	buttonGenerate := widget.NewButton("Search", func() {
 		collections = stac.GetCollections(selectEntry.Text)
 		items := make([]interface{}, len(collections.Collections))
 		for i, c := range collections.Collections {

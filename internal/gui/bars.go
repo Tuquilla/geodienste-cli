@@ -11,7 +11,7 @@ import (
 
 func NewSearchBar(bind models.State, collections models.Collections) *widget.Entry {
 	searchBar := widget.NewEntry()
-	searchBar.SetPlaceHolder("Enter text...")
+	searchBar.SetPlaceHolder("Search Assets")
 	searchBar.OnChanged = func(text string) {
 		bind.Search.Set(text)
 		items := make([]any, 0, len(collections.Collections))

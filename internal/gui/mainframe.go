@@ -10,6 +10,7 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"github.com/kglaus/geodienste-cli/internal/helpers"
 	"github.com/kglaus/geodienste-cli/internal/stac"
 	"github.com/kglaus/geodienste-cli/internal/stac/models"
 )
@@ -55,7 +56,10 @@ func NewMainFrame(bind models.State) *container.Scroll {
 					label.Wrapping = fyne.TextWrapWord
 
 					button := widget.NewButton("", func() {
+						// TODO Remove Printf
 						fmt.Printf("call %s\n", feature.Assets[assetKey].Href)
+						// Save assets
+						helpers.SaveAsset()
 					})
 
 					stack := container.NewStack(button, label)
