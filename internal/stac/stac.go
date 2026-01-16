@@ -9,58 +9,59 @@ import (
 	"github.com/kglaus/geodienste-cli/internal/stac/models"
 )
 
-func GetCollections(baseUrl string) models.Collections {
-	if baseUrl == "" {
-		var collections models.Collections
-		return collections
-	}
-
+func GetCollections(baseUrl string) (models.Collections, error) {
 	resp, err := http.Get(baseUrl + "/collections")
-	defer resp.Body.Close()
-
 	if err != nil {
-		fmt.Println("Error calling service")
+		return models.Collections{}, fmt.Errorf("error invalid url: %v", err)
 	}
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error reading Response Body")
+		return models.Collections{}, fmt.Errorf("error reading response body: %v", err)
 	}
 
-	collections := createCollections(body)
-	return collections
+	collections, err := createCollections(body)
+	if err != nil {
+		return models.Collections{}, fmt.Errorf("error creating collections: %v", err)
+	}
+	return collections, nil
 }
 
-func GetItems(itemUrl string) models.FeatureCollection {
+func GetItems(itemUrl string) (models.FeatureCollection, error) {
 	resp, err := http.Get(itemUrl)
-	defer resp.Body.Close()
 	if err != nil {
-		fmt.Println("Error calling service")
+		return models.FeatureCollection{}, fmt.Errorf("error getting item url: %v", err)
 	}
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error reading Response Body")
+		return models.FeatureCollection{}, fmt.Errorf("error reading response body: %v", err)
 	}
 
-	featureCollection := createFeatureCollection(body)
-	return featureCollection
+	featureCollection, err := createFeatureCollection(body)
+	if err != nil {
+		return models.FeatureCollection{}, fmt.Errorf("error creating feature collections: %v", err)
+	}
+	return featureCollection, nil
 }
 
-func createCollections(body []byte) models.Collections {
+func createCollections(body []byte) (models.Collections, error) {
 	var collections models.Collections
 	err := json.Unmarshal(body, &collections)
 	if err != nil {
 		fmt.Printf("Error unmarshalling json: %s", err)
+		return models.Collections{}, fmt.Errorf("error unmarshalling collection json: %v", err)
 	}
-	return collections
+	return collections, nil
 }
 
-func createFeatureCollection(body []byte) models.FeatureCollection {
+func createFeatureCollection(body []byte) (models.FeatureCollection, error) {
 	var featureCollections models.FeatureCollection
 	err := json.Unmarshal(body, &featureCollections)
 	if err != nil {
-		fmt.Printf("Error unmarshalling json: %s", err)
+		return models.FeatureCollection{}, fmt.Errorf("error unmarshalling feature collection json: %v", err)
 	}
-	return featureCollections
+	return featureCollections, nil
 }

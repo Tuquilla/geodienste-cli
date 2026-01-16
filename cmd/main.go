@@ -17,8 +17,8 @@ import (
 func main() {
 	myApp := app.New()
 	myWindow := myApp.NewWindow("geodienst-cli")
-	myWindow.SetContent(widget.NewLabel("geodienste-cli"))
 	myWindow.Resize(fyne.NewSize(1050, 400))
+	myWindow.SetContent(widget.NewLabel("geodienste-cli"))
 
 	stateBindings := models.State{
 		CompleteList: binding.NewUntypedList(),
@@ -26,21 +26,19 @@ func main() {
 		Search:       binding.NewString(),
 	}
 
-	var collections models.Collections
-
 	selectOptions := helpers.Config("configs/config.json").BaseUrls
 
 	// Mainframe
-	contentBottomWrapper := gui.NewMainFrame(stateBindings)
+	contentBottomWrapper := gui.NewMainFrame(stateBindings, myWindow)
 
 	// Searchbar
-	searchBar := gui.NewSearchBar(stateBindings, collections)
+	searchBar := gui.NewSearchBar(stateBindings)
 
 	// Select entry
 	selectEntry := gui.NewSelectEntry(selectOptions)
 
 	// Stac button
-	buttonGenerate := gui.NewStacButton(stateBindings, collections, selectEntry)
+	buttonGenerate := gui.NewStacButton(stateBindings, selectEntry, myWindow)
 
 	// Arrange widgets
 	contentTop := container.New(layout.NewGridLayout(2), buttonGenerate, searchBar, selectEntry)

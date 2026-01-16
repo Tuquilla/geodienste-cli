@@ -1,14 +1,19 @@
 package gui
 
 import (
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 	"github.com/kglaus/geodienste-cli/internal/stac"
 	"github.com/kglaus/geodienste-cli/internal/stac/models"
 )
 
-func NewStacButton(bind models.State, collections models.Collections, selectEntry *widget.SelectEntry) *widget.Button {
+func NewStacButton(bind models.State, selectEntry *widget.SelectEntry, myWindow fyne.Window) *widget.Button {
 	buttonGenerate := widget.NewButton("Search", func() {
-		collections = stac.GetCollections(selectEntry.Text)
+		collections, err := stac.GetCollections(selectEntry.Text)
+		if err != nil {
+			popup := NewErrorPopup(err.Error(), myWindow.Canvas())
+			popup.Show()
+		}
 		items := make([]interface{}, len(collections.Collections))
 		for i, c := range collections.Collections {
 			items[i] = c

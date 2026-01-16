@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreateCollections(t *testing.T) {
-	collections := createCollections([]byte(collectionsTestdata))
+	collections, _ := createCollections([]byte(collectionsTestdata))
 	if collections.Collections[0].Id != "klaeranlagen_mit_finanzkennzahlen" {
 		t.Errorf("Collection Id was not correct")
 	}
@@ -24,7 +24,7 @@ func TestCreateCollections(t *testing.T) {
 
 func TestCreateFeatureCollection(t *testing.T) {
 	assetObjectKey := "csv_zip"
-	featureCollection := createFeatureCollection([]byte(featureCollectionDatasetFixture))
+	featureCollection, _ := createFeatureCollection([]byte(featureCollectionDatasetFixture))
 
 	firstAssets := featureCollection.Features[0].Assets
 	_, assetKeyExists := firstAssets[assetObjectKey]

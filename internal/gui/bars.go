@@ -9,13 +9,13 @@ import (
 	"github.com/kglaus/geodienste-cli/internal/stac/models"
 )
 
-func NewSearchBar(bind models.State, collections models.Collections) *widget.Entry {
+func NewSearchBar(bind models.State) *widget.Entry {
 	searchBar := widget.NewEntry()
 	searchBar.SetPlaceHolder("Search Assets")
 	searchBar.OnChanged = func(text string) {
 		bind.Search.Set(text)
-		items := make([]any, 0, len(collections.Collections))
 		completeList, _ := bind.CompleteList.Get()
+		items := make([]any, 0, len(completeList))
 		for _, element := range completeList {
 			if collection, ok := element.(models.Collection); ok {
 				if strings.Contains(strings.ToLower(collection.Title), strings.ToLower(text)) {

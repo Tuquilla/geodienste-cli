@@ -15,7 +15,7 @@ import (
 	"github.com/kglaus/geodienste-cli/internal/stac/models"
 )
 
-func NewMainFrame(bind models.State) *container.Scroll {
+func NewMainFrame(bind models.State, myWindow fyne.Window) *container.Scroll {
 	grid := container.New(layout.NewGridWrapLayout(fyne.Size{Width: 200, Height: 125}))
 	scrollableGrid := container.NewVScroll(grid)
 
@@ -30,7 +30,11 @@ func NewMainFrame(bind models.State) *container.Scroll {
 				label.Wrapping = fyne.TextWrapWord
 
 				button := widget.NewButton("", func() {
-					featureCollection := stac.GetItems(collection.GetItemsLink().Href)
+					featureCollection, err := stac.GetItems(collection.GetItemsLink().Href)
+					if err != nil {
+						popup := NewErrorPopup(err.Error(), myWindow.Canvas())
+						popup.Show()
+					}
 					items := make([]interface{}, len(featureCollection.Features))
 					for i, c := range featureCollection.Features {
 						items[i] = c
