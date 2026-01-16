@@ -30,17 +30,21 @@ func NewMainFrame(bind models.State, myWindow fyne.Window) *container.Scroll {
 				label.Wrapping = fyne.TextWrapWord
 
 				button := widget.NewButton("", func() {
-					featureCollection, err := stac.GetItems(collection.GetItemsLink().Href)
-					if err != nil {
-						popup := NewErrorPopup(err.Error(), myWindow.Canvas())
-						popup.Show()
-					}
-					items := make([]interface{}, len(featureCollection.Features))
-					for i, c := range featureCollection.Features {
-						items[i] = c
-					}
-					bind.CompleteList.Set(items)
-					bind.FilteredList.Set(items)
+					go func() {
+						featureCollection, err := stac.GetItems(collection.GetItemsLink().Href)
+						fyne.Do(func() {
+							if err != nil {
+								popup := NewErrorPopup(err.Error(), myWindow.Canvas())
+								popup.Show()
+							}
+							items := make([]interface{}, len(featureCollection.Features))
+							for i, c := range featureCollection.Features {
+								items[i] = c
+							}
+							bind.CompleteList.Set(items)
+							bind.FilteredList.Set(items)
+						})
+					}()
 				})
 
 				stack := container.NewStack(button, label)

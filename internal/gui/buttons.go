@@ -9,17 +9,21 @@ import (
 
 func NewStacButton(bind models.State, selectEntry *widget.SelectEntry, myWindow fyne.Window) *widget.Button {
 	buttonGenerate := widget.NewButton("Search", func() {
-		collections, err := stac.GetCollections(selectEntry.Text)
-		if err != nil {
-			popup := NewErrorPopup(err.Error(), myWindow.Canvas())
-			popup.Show()
-		}
-		items := make([]interface{}, len(collections.Collections))
-		for i, c := range collections.Collections {
-			items[i] = c
-		}
-		bind.CompleteList.Set(items)
-		bind.FilteredList.Set(items)
+		go func() {
+			collections, err := stac.GetCollections(selectEntry.Text)
+			fyne.Do(func() {
+				if err != nil {
+					popup := NewErrorPopup(err.Error(), myWindow.Canvas())
+					popup.Show()
+				}
+				items := make([]interface{}, len(collections.Collections))
+				for i, c := range collections.Collections {
+					items[i] = c
+				}
+				bind.CompleteList.Set(items)
+				bind.FilteredList.Set(items)
+			})
+		}()
 	})
 
 	return buttonGenerate
