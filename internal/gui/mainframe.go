@@ -10,9 +10,9 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"github.com/kglaus/geodienste-cli/internal/helpers"
-	"github.com/kglaus/geodienste-cli/internal/stac"
-	"github.com/kglaus/geodienste-cli/internal/stac/models"
+	"github.com/kglaus/stac-client/internal/helpers"
+	"github.com/kglaus/stac-client/internal/stac"
+	"github.com/kglaus/stac-client/internal/stac/models"
 )
 
 func NewMainFrame(bind models.State, myWindow fyne.Window) *container.Scroll {

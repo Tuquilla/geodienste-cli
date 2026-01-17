@@ -1,4 +1,4 @@
-module github.com/kglaus/geodienste-cli
+module github.com/kglaus/stac-client
 
 go 1.25.3
 

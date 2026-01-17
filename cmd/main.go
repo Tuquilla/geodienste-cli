@@ -9,16 +9,16 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"github.com/kglaus/geodienste-cli/internal/gui"
-	"github.com/kglaus/geodienste-cli/internal/helpers"
-	"github.com/kglaus/geodienste-cli/internal/stac/models"
+	"github.com/kglaus/stac-client/internal/gui"
+	"github.com/kglaus/stac-client/internal/helpers"
+	"github.com/kglaus/stac-client/internal/stac/models"
 )
 
 func main() {
 	myApp := app.New()
-	myWindow := myApp.NewWindow("geodienst-cli")
+	myWindow := myApp.NewWindow("stac-client")
 	myWindow.Resize(fyne.NewSize(1050, 400))
-	myWindow.SetContent(widget.NewLabel("geodienste-cli"))
+	myWindow.SetContent(widget.NewLabel("stac-client"))
 
 	stateBindings := models.State{
 		CompleteList: binding.NewUntypedList(),

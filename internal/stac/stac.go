@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/kglaus/geodienste-cli/internal/stac/models"
+	"github.com/kglaus/stac-client/internal/stac/models"
 )
 
 func GetCollections(baseUrl string) (models.Collections, error) {

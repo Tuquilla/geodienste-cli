@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"fyne.io/fyne/v2/widget"
-	"github.com/kglaus/geodienste-cli/internal/stac/models"
+	"github.com/kglaus/stac-client/internal/stac/models"
 )
 
 func NewSearchBar(bind models.State) *widget.Entry {

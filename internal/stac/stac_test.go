@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/kglaus/geodienste-cli/internal/stac/models"
+	"github.com/kglaus/stac-client/internal/stac/models"
 )
 
 func TestCreateCollections(t *testing.T) {

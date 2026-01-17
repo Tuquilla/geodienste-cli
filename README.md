@@ -1,4 +1,4 @@
-# geodienste-cli
+# Stac-Client
 
 :construction: WIP
 

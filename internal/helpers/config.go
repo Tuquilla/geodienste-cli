@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/kglaus/geodienste-cli/configs"
+	"github.com/kglaus/stac-client/configs"
 )
 
 func Config(path string) configs.Config {
