@@ -9,8 +9,8 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"github.com/kglaus/stac-client/configs"
 	"github.com/kglaus/stac-client/internal/gui"
-	"github.com/kglaus/stac-client/internal/helpers"
 	"github.com/kglaus/stac-client/internal/stac/models"
 )
 
@@ -26,7 +26,7 @@ func main() {
 		Search:       binding.NewString(),
 	}
 
-	selectOptions := helpers.Config("configs/config.json").BaseUrls
+	selectOptions := configs.ReadConfig().BaseUrls
 
 	// Mainframe
 	contentBottomWrapper := gui.NewMainFrame(stateBindings, myWindow)
