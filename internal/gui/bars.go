@@ -47,7 +47,7 @@ func NewSelectEntry(selectOptions []string) *widget.SelectEntry {
 
 func NewDirBar() *widget.Entry {
 	dirBar := widget.NewEntry()
-	_, assetRootPath := helpers.OperatingSystem()
+	_, assetRootPath, _ := helpers.OperatingSystem()
 	dirBar.Text = assetRootPath
 	// TODO implement this path for saving assets
 	return dirBar
