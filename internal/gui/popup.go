@@ -12,3 +12,9 @@ func NewErrorPopup(errorText string, myCanvas fyne.Canvas) *widget.PopUp {
 	popup := widget.NewPopUp(label, myCanvas)
 	return popup
 }
+
+func NewSuccessfulPopup(message string, myCanvas fyne.Canvas) *widget.PopUp {
+	label := canvas.NewText(message, colornames.Green)
+	popup := widget.NewPopUp(label, myCanvas)
+	return popup
+}

@@ -63,7 +63,14 @@ func NewMainFrame(bind models.State, myWindow fyne.Window) *container.Scroll {
 					label.Wrapping = fyne.TextWrapWord
 
 					button := widget.NewButton("", func() {
-						helpers.SaveAsset(feature.Assets[assetKey])
+						err := helpers.SaveAsset(feature.Assets[assetKey])
+						if err != nil {
+							popup := NewErrorPopup(err.Error(), myWindow.Canvas())
+							popup.Show()
+						} else {
+							popup := NewSuccessfulPopup("Downloading and Saving Asset successful", myWindow.Canvas())
+							popup.Show()
+						}
 					})
 
 					stack := container.NewStack(button, label)
