@@ -58,8 +58,8 @@ func OperatingSystem() (string, string, error) {
 		assetRootPath = dir + "\\stac_downloads\\"
 	case "linux":
 		// TODO Implement linux paths
-		dir = "~"
-		return dir, assetRootPath, errors.New("error linux is not implemented")
+		dir = "/home/" + os.Getenv("USER") + "/Documents"
+		assetRootPath = dir + "/stac_downloads/"
 	default:
 		return dir, assetRootPath, errors.New("error unknown operating system")
 	}
